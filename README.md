@@ -40,6 +40,22 @@ WhatsApp es actualmente una **"caja negra"** en nuestras operaciones de venta:
    - **Media**: Preguntas técnicas o de garantía → Asignación a experto
    - **Baja**: Saludos o spam → Filtrado automático
 
+## 🚧 Estado actual
+
+Proyecto en desarrollo. Lo que ya está en el código:
+
+| Módulo | Estado |
+|---|---|
+| `utils/waha_client.py`: cliente WAHA (sesión, chats, mensajes, enviar, escribiendo..., reacciones, webhook) | ✅ |
+| `extractors/`: extracción de historial, tiempos de respuesta, preguntas frecuentes, tipos de mensaje | ✅ |
+| `classifiers/`: clasificador de intención por palabras clave (alta / media / baja) y prioridad | ✅ |
+| `response/`: motor de respuestas con plantillas, retraso y tiempo de escritura humanizados | ✅ |
+| `webhooks/`: `POST /webhooks/waha`, `POST /webhooks/test`, `GET /webhooks/status` | ✅ |
+| `analytics/` (rutas y dashboard), base de datos y migraciones, pruebas automatizadas | ⏳ pendiente |
+
+> `main.py` ya importa `sentinel.analytics.routes`; mientras ese módulo no exista, comenta esa línea para levantar
+> el servidor solo con los webhooks.
+
 ## 🏗️ Arquitectura
 
 ```
@@ -118,23 +134,16 @@ WhatsApp es actualmente una **"caja negra"** en nuestras operaciones de venta:
 
 ### Prerrequisitos
 
-```bash
-# Python 3.9 o superior
-python --version
-
-# PostgreSQL 13+
-psql --version
-
-# Redis (opcional, para caché)
-redis-server --version
-```
+- Python 3.9 o superior
+- Una instancia de [WAHA](https://waha.devlike.pro) (WhatsApp HTTP API) con su API key
+- PostgreSQL y Redis quedan para las fases siguientes (analytics y caché)
 
 ### Setup Rápido
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-org/sentinel-waha.git
-cd sentinel-waha
+git clone https://github.com/COMPUMAX-EC/Sentinel-Waha.git
+cd Sentinel-Waha
 
 # Crear entorno virtual
 python -m venv venv
@@ -147,14 +156,8 @@ pip install -r requirements.txt
 cp .env.example .env
 # Editar .env con tus credenciales
 
-# Inicializar base de datos
-python scripts/init_db.py
-
-# Ejecutar migraciones
-alembic upgrade head
-
-# Iniciar servidor
-python main.py
+# Iniciar servidor (el paquete está en src/)
+PYTHONPATH=src python main.py   # En Windows PowerShell: $env:PYTHONPATH="src"; python main.py
 ```
 
 ## ⚙️ Configuración
@@ -187,16 +190,12 @@ WEBHOOK_URL=https://tu-dominio.com/webhooks/waha
 ### Extracción de Historial
 
 ```python
+import asyncio
 from sentinel.extractors import MessageExtractor
 
 extractor = MessageExtractor()
-messages = extractor.extract_all_messages(
-    phone_number="+525512345678",
-    start_date="2024-01-01",
-    end_date="2025-01-28"
-)
-
-print(f"Extraídos {len(messages)} mensajes")
+messages = asyncio.run(extractor.extract_all_messages())
+report = extractor.process_messages(messages)  # tiempos de respuesta, preguntas frecuentes, tipos de mensaje
 ```
 
 ### Análisis de Intención
@@ -214,17 +213,17 @@ print(f"Confianza: {intent.confidence}")  # Output: 0.92
 ### Respuesta Automatizada
 
 ```python
-from sentinel.response import ResponseEngine
+from sentinel.classifiers import IntentClassifier
+from sentinel.response import ResponseEngine, ResponseContext
 
-engine = ResponseEngine()
-response = engine.generate_response(
-    message="Me interesa el producto",
-    context=conversation_history,
-    humanize=True
+message = "Me interesa el producto"
+context = ResponseContext(
+    customer_message=message,
+    intent=IntentClassifier().classify(message),
+    conversation_history=[],
 )
-
-print(response.text)  # Respuesta humanizada
-print(f"Enviar en {response.delay_seconds}s")  # Delay realista
+response = ResponseEngine().generate_response(context, humanize=True)
+print(response)  # texto, retraso y duración de "escribiendo..."
 ```
 
 ## 📈 Métricas Clave
@@ -240,28 +239,8 @@ El sistema monitorea automáticamente:
 
 ## 🧪 Testing
 
-```bash
-# Ejecutar todos los tests
-pytest
-
-# Tests con cobertura
-pytest --cov=sentinel --cov-report=html
-
-# Tests de integración solamente
-pytest tests/integration/
-
-# Tests con output detallado
-pytest -v -s
-```
-
-## 📚 Documentación
-
-- [Arquitectura del Sistema](docs/architecture.md)
-- [API Reference](docs/api-reference.md)
-- [Guía de Configuración WAHA](docs/waha-setup.md)
-- [Clasificación de Intención](docs/intent-classification.md)
-- [Humanización de Respuestas](docs/response-humanization.md)
-- [Dashboard Analytics](docs/analytics-dashboard.md)
+Las pruebas automatizadas todavía no están escritas; `pytest` y `pytest-asyncio` ya vienen en `requirements.txt`
+para cuando se agreguen en `tests/`. Con `APP_DEBUG=true`, la API se puede probar a mano en `/docs` (Swagger).
 
 ## 🤝 Contribución
 
@@ -291,10 +270,7 @@ Desarrollado con ❤️ por el equipo de Compumax.tech
 
 ---
 
-**¿Preguntas o sugerencias?**  
-📧 Email: soporte@compumax.tech  
-🌐 Web: https://compumax.tech  
-📱 WhatsApp: +52 55 1234 5678
+**¿Preguntas o sugerencias?** Abre un [issue](https://github.com/COMPUMAX-EC/Sentinel-Waha/issues).
 
 ---
 
