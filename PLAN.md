@@ -2,14 +2,14 @@
 
 | | |
 |---|---|
-| **Sector objetivo** | Empresa privada grande · ventas y atención por WhatsApp (retail, farmacias, telecom) |
+| **Sector objetivo** | Farmacéutica y distribución de medicamentos · venta y atención por WhatsApp de cadenas de farmacias |
 | **Segmento** | A |
-| **Esfuerzo asignado** | 5 % del tiempo de proyectos (dentro del 10 % de privada grande y telecom) |
+| **Esfuerzo asignado** | 4 % del tiempo de proyectos (dentro del 8 % farmacéutico) |
 | **Horizonte** | 9-nov-2026 → 31-ene-2027 |
 
 ## Para quién se diseña
 
-Equipos comerciales y de BI de empresas grandes que venden o atienden por WhatsApp Business.
+Equipos comerciales y de BI de cadenas de farmacias (GPF, Farmaenlace, Cruz Azul) que reciben pedidos y consultas por WhatsApp Business.
 
 ## Metas
 
