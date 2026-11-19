@@ -1,62 +1,66 @@
-# 🛡️ Sentinel WhatsApp - Inteligencia de Datos y Optimización de Conversión
+# 🛡️ Sentinel WhatsApp - Data Intelligence and Conversion Optimization
 
-> **Sistema inteligente de análisis y automatización para WhatsApp Business usando infraestructura propia WAHA**
+🇬🇧 **English** · 🇪🇨 [Español](README.es.md)
+
+> **Intelligent analytics and automation system for WhatsApp Business on self-hosted WAHA infrastructure**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
-## 🎯 El Problema
+> **Status: paused since 6 Nov 2026** (see [PLAN.md](PLAN.md)).
 
-WhatsApp es actualmente una **"caja negra"** en nuestras operaciones de venta:
+## 🎯 The problem
 
-- ❌ **Tasa de Abandono Desconocida**: No sabemos en qué punto exacto el cliente deja de responder
-- ❌ **Ventana de Oro Perdida**: Perdemos ventas por tardar más de 10 minutos en contestar
-- ❌ **Fuga de Datos**: La información vive en teléfonos de vendedores, no en sistemas centralizados
-- ❌ **Sin Métricas**: Imposible optimizar sin medir
+WhatsApp is currently a **"black box"** in our sales operations:
 
-## 💡 La Solución
+- ❌ **Unknown drop-off rate**: we do not know at what exact point the customer stops replying
+- ❌ **Lost golden window**: we lose sales by taking more than 10 minutes to reply
+- ❌ **Data leakage**: the information lives on salespeople's phones, not in centralized systems
+- ❌ **No metrics**: impossible to optimize without measuring
 
-**Sentinel WhatsApp** es un sistema de inteligencia que convierte WhatsApp en un canal de ventas medible y optimizable:
+## 💡 The solution
 
-### ✨ Características Principales
+**Sentinel WhatsApp** is an intelligence system that turns WhatsApp into a measurable, optimizable sales channel:
 
-1. **📊 Auditoría Histórica**
-   - Extracción masiva de conversaciones pasadas
-   - Análisis de patrones de éxito y abandono
-   - Identificación de puntos críticos en el embudo
+### ✨ Main features
 
-2. **🤖 Automatización Humanizada**
-   - Respuestas que simulan comportamiento humano
-   - Tiempos de escritura realistas
-   - Uso inteligente de emojis, audios y reacciones
+1. **📊 Historical audit**
+   - Bulk extraction of past conversations
+   - Analysis of success and drop-off patterns
+   - Identification of critical points in the funnel
 
-3. **📈 Analytics en Tiempo Real**
-   - Dashboard de métricas de conversión
-   - Alertas de clientes "calientes"
-   - Seguimiento de KPIs críticos
+2. **🤖 Human-like automation**
+   - Replies that mimic human behavior
+   - Realistic typing times
+   - Smart use of emojis, voice notes and reactions
 
-4. **🎯 Clasificación por Intención**
-   - **Alta**: Palabras clave como "precio", "pago", "envío" → Respuesta inmediata
-   - **Media**: Preguntas técnicas o de garantía → Asignación a experto
-   - **Baja**: Saludos o spam → Filtrado automático
+3. **📈 Real-time analytics**
+   - Conversion-metrics dashboard
+   - Alerts for "hot" customers
+   - Tracking of critical KPIs
 
-## 🚧 Estado actual
+4. **🎯 Intent classification**
+   - **High**: keywords such as "precio", "pago", "envío" (price, payment, shipping) → immediate reply
+   - **Medium**: technical or warranty questions → assigned to an expert
+   - **Low**: greetings or spam → filtered automatically
 
-Proyecto en desarrollo. Lo que ya está en el código:
+## 🚧 Current status
 
-| Módulo | Estado |
+Work in progress. What is already in the code:
+
+| Module | Status |
 |---|---|
-| `utils/waha_client.py`: cliente WAHA (sesión, chats, mensajes, enviar, escribiendo..., reacciones, webhook) | ✅ |
-| `extractors/`: extracción de historial, tiempos de respuesta, preguntas frecuentes, tipos de mensaje | ✅ |
-| `classifiers/`: clasificador de intención por palabras clave (alta / media / baja) y prioridad | ✅ |
-| `response/`: motor de respuestas con plantillas, retraso y tiempo de escritura humanizados | ✅ |
+| `utils/waha_client.py`: WAHA client (session, chats, messages, send, typing..., reactions, webhook) | ✅ |
+| `extractors/`: history extraction, response times, frequent questions, message types | ✅ |
+| `classifiers/`: keyword-based intent classifier (high / medium / low) and priority | ✅ |
+| `response/`: reply engine with templates, human-like delay and typing time | ✅ |
 | `webhooks/`: `POST /webhooks/waha`, `POST /webhooks/test`, `GET /webhooks/status` | ✅ |
-| `analytics/` (rutas y dashboard), base de datos y migraciones, pruebas automatizadas | ⏳ pendiente |
+| `analytics/` (routes and dashboard), database and migrations, automated tests | ⏳ pending |
 
-> `main.py` ya importa `sentinel.analytics.routes`; mientras ese módulo no exista, comenta esa línea para levantar
-> el servidor solo con los webhooks.
+> `main.py` already imports `sentinel.analytics.routes`; until that module exists, comment out that line to start
+> the server with the webhooks only.
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -79,95 +83,95 @@ Proyecto en desarrollo. Lo que ya está en el código:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🚀 Fases del Proyecto
+## 🚀 Project phases
 
-### Fase I: Diagnóstico (Backlog Analysis)
-**Objetivo**: Entender qué está pasando
+### Phase I: Diagnosis (backlog analysis)
+**Goal**: understand what is happening
 
-- Extracción masiva de mensajes vía API
-- Procesamiento de historial completo
-- Identificación de las 5 preguntas que matan o cierran ventas
-- Análisis de tiempos de respuesta vs conversión
+- Bulk message extraction through the API
+- Processing of the full history
+- Identification of the 5 questions that kill or close sales
+- Analysis of response time vs. conversion
 
-**Entregable**: Reporte de insights con patrones de éxito/fracaso
+**Deliverable**: insights report with success/failure patterns
 
-### Fase II: Automatización
-**Objetivo**: Responder más rápido y mejor
+### Phase II: Automation
+**Goal**: reply faster and better
 
-- Configuración de Webhooks en tiempo real
-- Motor de respuestas humanizadas
-- Sistema de detección de intención
-- Asignación inteligente a vendedores
+- Real-time webhook setup
+- Human-like reply engine
+- Intent-detection system
+- Smart assignment to salespeople
 
-**Entregable**: Sistema de respuestas automáticas activo 24/7
+**Deliverable**: automatic reply system running 24/7
 
-### Fase III: Monitoreo
-**Objetivo**: Optimización continua
+### Phase III: Monitoring
+**Goal**: continuous optimization
 
-- Dashboard en tiempo real
-- Métricas de conversión por vendedor
-- Alertas de oportunidades
-- A/B testing de respuestas
+- Real-time dashboard
+- Conversion metrics per salesperson
+- Opportunity alerts
+- A/B testing of replies
 
-**Entregable**: Panel de control con visibilidad total del embudo
+**Deliverable**: control panel with full visibility of the funnel
 
-## 💰 Ventajas Competitivas
+## 💰 Competitive advantages
 
-| Aspecto | Solución Tradicional | Sentinel WhatsApp |
+| Aspect | Traditional solution | Sentinel WhatsApp |
 |---------|---------------------|-------------------|
-| **Costo** | $0.005-0.05 por mensaje | Infraestructura propia (costo fijo) |
-| **Control** | Datos en servidores terceros | 100% en nuestros servidores |
-| **Privacidad** | Compartida con proveedores | Total privacidad |
-| **Escalabilidad** | Costo crece con volumen | Ilimitado sin costo adicional |
-| **Personalización** | Limitada por API externa | Control total del código |
+| **Cost** | $0.005–0.05 per message | Self-hosted infrastructure (fixed cost) |
+| **Control** | Data on third-party servers | 100% on our servers |
+| **Privacy** | Shared with providers | Full privacy |
+| **Scalability** | Cost grows with volume | Unlimited at no extra cost |
+| **Customization** | Limited by the external API | Full control of the code |
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Tech stack
 
 - **Backend**: Python 3.9+ (FastAPI)
-- **Base de Datos**: PostgreSQL + Redis
+- **Database**: PostgreSQL + Redis
 - **Analytics**: Pandas, NumPy, Scikit-learn
 - **WhatsApp API**: WAHA (WhatsApp HTTP API)
 - **Dashboard**: Streamlit / React
-- **Infraestructura**: Compumax.tech VM
+- **Infrastructure**: Compumax.tech VM
 
-## 📦 Instalación
+## 📦 Installation
 
-### Prerrequisitos
+### Prerequisites
 
-- Python 3.9 o superior
-- Una instancia de [WAHA](https://waha.devlike.pro) (WhatsApp HTTP API) con su API key
-- PostgreSQL y Redis quedan para las fases siguientes (analytics y caché)
+- Python 3.9 or later
+- A [WAHA](https://waha.devlike.pro) (WhatsApp HTTP API) instance with its API key
+- PostgreSQL and Redis are for the next phases (analytics and caching)
 
-### Setup Rápido
+### Quick setup
 
 ```bash
-# Clonar repositorio
+# Clone the repository
 git clone https://github.com/COMPUMAX-EC/Sentinel-Waha.git
 cd Sentinel-Waha
 
-# Crear entorno virtual
+# Create a virtual environment
 python -m venv venv
-source venv/bin/activate  # En Windows: venv\Scripts\activate
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Instalar dependencias
+# Install dependencies
 pip install -r requirements.txt
 
-# Configurar variables de entorno
+# Configure environment variables
 cp .env.example .env
-# Editar .env con tus credenciales
+# Edit .env with your credentials
 
-# Iniciar servidor (el paquete está en src/)
-PYTHONPATH=src python main.py   # En Windows PowerShell: $env:PYTHONPATH="src"; python main.py
+# Start the server (the package is in src/)
+PYTHONPATH=src python main.py   # On Windows PowerShell: $env:PYTHONPATH="src"; python main.py
 ```
 
-## ⚙️ Configuración
+## ⚙️ Configuration
 
-Edita el archivo `.env`:
+Edit the `.env` file:
 
 ```env
 # WAHA API Configuration
 WAHA_API_URL=https://waha.compumax.tech
-WAHA_API_KEY=tu_api_key_aqui
+WAHA_API_KEY=your_api_key_here
 WAHA_SESSION_NAME=default
 
 # Database
@@ -181,13 +185,13 @@ RESPONSE_DELAY_MIN=2
 RESPONSE_DELAY_MAX=5
 
 # Webhooks
-WEBHOOK_SECRET=tu_secret_aqui
-WEBHOOK_URL=https://tu-dominio.com/webhooks/waha
+WEBHOOK_SECRET=your_secret_here
+WEBHOOK_URL=https://your-domain.com/webhooks/waha
 ```
 
-## 📊 Uso
+## 📊 Usage
 
-### Extracción de Historial
+### History extraction
 
 ```python
 import asyncio
@@ -195,83 +199,83 @@ from sentinel.extractors import MessageExtractor
 
 extractor = MessageExtractor()
 messages = asyncio.run(extractor.extract_all_messages())
-report = extractor.process_messages(messages)  # tiempos de respuesta, preguntas frecuentes, tipos de mensaje
+report = extractor.process_messages(messages)  # response times, frequent questions, message types
 ```
 
-### Análisis de Intención
+### Intent analysis
 
 ```python
 from sentinel.classifiers import IntentClassifier
 
 classifier = IntentClassifier()
-intent = classifier.classify("Cuál es el precio del producto?")
+intent = classifier.classify("Cuál es el precio del producto?")  # Spanish: "What is the price of the product?"
 
-print(f"Intención: {intent.level}")  # Output: "high"
-print(f"Confianza: {intent.confidence}")  # Output: 0.92
+print(f"Intent: {intent.level}")  # Output: "high"
+print(f"Confidence: {intent.confidence}")  # Output: 0.92
 ```
 
-### Respuesta Automatizada
+### Automated reply
 
 ```python
 from sentinel.classifiers import IntentClassifier
 from sentinel.response import ResponseEngine, ResponseContext
 
-message = "Me interesa el producto"
+message = "Me interesa el producto"  # Spanish: "I'm interested in the product"
 context = ResponseContext(
     customer_message=message,
     intent=IntentClassifier().classify(message),
     conversation_history=[],
 )
 response = ResponseEngine().generate_response(context, humanize=True)
-print(response)  # texto, retraso y duración de "escribiendo..."
+print(response)  # text, delay and "typing..." duration
 ```
 
-## 📈 Métricas Clave
+## 📈 Key metrics
 
-El sistema monitorea automáticamente:
+The system automatically tracks:
 
-- **Tasa de Respuesta**: % de mensajes contestados
-- **Tiempo de Primera Respuesta**: Promedio y percentil 90
-- **Tasa de Abandono**: Por etapa del embudo
-- **Tasa de Conversión**: Mensajes → Ventas cerradas
-- **Palabras Calientes**: Keywords con mayor conversión
-- **Horarios Óptimos**: Mejor momento para contactar
+- **Response rate**: % of messages answered
+- **First response time**: average and 90th percentile
+- **Drop-off rate**: per funnel stage
+- **Conversion rate**: messages → closed sales
+- **Hot words**: keywords with the highest conversion
+- **Best times**: the best moment to get in touch
 
 ## 🧪 Testing
 
-Las pruebas automatizadas todavía no están escritas; `pytest` y `pytest-asyncio` ya vienen en `requirements.txt`
-para cuando se agreguen en `tests/`. Con `APP_DEBUG=true`, la API se puede probar a mano en `/docs` (Swagger).
+Automated tests are not written yet; `pytest` and `pytest-asyncio` are already in `requirements.txt` for when they
+are added under `tests/`. With `APP_DEBUG=true`, the API can be tried by hand at `/docs` (Swagger).
 
-## 🤝 Contribución
+## 🤝 Contributing
 
-Las contribuciones son bienvenidas! Por favor:
+Contributions are welcome! Please:
 
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
+1. Fork the project
+2. Create a branch for your feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📝 Roadmap
 
-- [x] **Q4 2025**: Fase I - Diagnóstico y análisis histórico
-- [ ] **Q1 2026**: Fase II - Automatización de respuestas
-- [ ] **Q2 2026**: Fase III - Dashboard y monitoreo en tiempo real
-- [ ] **Q3 2026**: Machine Learning para optimización automática
-- [ ] **Q4 2026**: Multi-canal (Instagram, Telegram)
+- [x] **Q4 2025**: Phase I - Diagnosis and historical analysis
+- [ ] **Q1 2026**: Phase II - Reply automation
+- [ ] **Q2 2026**: Phase III - Real-time dashboard and monitoring
+- [ ] **Q3 2026**: Machine learning for automatic optimization
+- [ ] **Q4 2026**: Multi-channel (Instagram, Telegram)
 
-## 📄 Licencia
+## 📄 License
 
-Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
+This project is under the MIT License. See [LICENSE](LICENSE) for details.
 
-## 👥 Equipo
+## 👥 Team
 
-Desarrollado con ❤️ por el equipo de Compumax.tech
-
----
-
-**¿Preguntas o sugerencias?** Abre un [issue](https://github.com/COMPUMAX-EC/Sentinel-Waha/issues).
+Built with ❤️ by the Compumax.tech team
 
 ---
 
-*"No estamos instalando un bot de respuestas automáticas molesto. Estamos construyendo un sistema de inteligencia de ventas que nos permite estar presentes 24/7 con la misma calidad que si estuviéramos nosotros escribiendo, pero con la velocidad de un algoritmo."*
+**Questions or suggestions?** Open an [issue](https://github.com/COMPUMAX-EC/Sentinel-Waha/issues).
+
+---
+
+*"We are not installing an annoying auto-reply bot. We are building a sales-intelligence system that lets us be present 24/7 with the same quality as if we were writing ourselves, but at the speed of an algorithm."*
